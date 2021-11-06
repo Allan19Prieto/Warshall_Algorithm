@@ -25,7 +25,8 @@ public class Main {
     public static void main(String[] args) {
         Main p= new Main();
         // List of graph edges as per the above diagram
-        List<Aristas> edges = Arrays.asList( new Aristas(1, 2), new Aristas(2, 4),
+        List<Aristas> edges = Arrays.asList(/*new Aristas(0, 2), new Aristas(1, 0),
+                new Aristas(3, 1)) */new Aristas(1, 2), new Aristas(2, 4),
                 new Aristas(2, 5),new Aristas(3, 1),new Aristas(3, 2),
                 new Aristas(3, 5),new Aristas(4, 5),new Aristas(4, 1),
                 new Aristas(5, 4));
@@ -36,18 +37,21 @@ public class Main {
         // build a graph from the given edges
         Grafo graph = new Grafo(edges, numNodos+1);
 
-        // "matriz" es una matriz de conexiones y almacena el cierre transitivo del grafo, el valor en la posición
-        //  matriz[i][j] es igual a "1" siempre que la ruta directa del vertice "i" al vertice "j" exista.
-        byte matriz[][] = new byte[numNodos][numNodos];
-
         // consider each vertex and start DFS from it
         int cont=0;
+        if(graph.getAdjList().get(0).size()==0){
+            graph.getAdjList().remove(0);
+            cont=-1;
+        }
+        numNodos= graph.getAdjList().size();
+        // "matriz" es una matriz de conexiones y almacena el cierre transitivo del grafo, el valor en la posición
+        //  matriz[i][j] es igual a "1" siempre que la ruta directa del vertice "i" al vertice "j" exista.
+        byte matriz[][] = new byte[graph.getAdjList().size()][graph.getAdjList().size()];
+
         for (int v = 0; v < numNodos; v++) {
             matriz[v][v] = 1;
-            graph.Warshall(graph, matriz, v, v);//,cont);
-            //if (graph.getAdjList().get(v).size()==0){
-            //    cont++;
-            //}
+            graph.Warshall(graph, matriz, v, v,cont);
+
             // print path info for vertex `v`
             System.out.println(Arrays.toString(matriz[v]));
         }

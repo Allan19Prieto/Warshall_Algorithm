@@ -26,22 +26,22 @@ public class Grafo {
             int to = aristas.get(i).getDest();
             adjList.get(from).add(to);
         }
-        if(adjList.get(0).size()==0){
+        /*if(adjList.get(0).size()==0){
             adjList.remove(0);
-        }
+        }else{
+            adjList.remove(-1);
+        }*/
     }
 
-    public void Warshall(Grafo grafo, byte[][] C, int root, int descendant){//,int cont) {
-        //System.out.println(descendant);
-        for (/*int i=cont;i<grafo.getAdjList().size();i++*/int child: grafo.getAdjList().get(descendant)) {
-            //System.out.println(child);
-            // if `child` is an adjacent vertex of descendant, we have
-            // found a path from root->child
-            // if child es un vertice adyacente de descendant, tenemos que encontrar una ruta de root -> a child
-            if (C[root][child-1] == 0) {
+    public void Warshall(Grafo grafo, byte[][] C, int root, int descendant, int cont) {
 
-                C[root][child-1] = 1;
-                Warshall(grafo, C, root, child-1);
+        for (int child: grafo.getAdjList().get(descendant)) {
+
+            // si child es un vertice adyacente de descendant, tenemos que encontrar una ruta de root -> a child
+            if (C[root][child+cont] == 0) {
+
+                C[root][child+cont] = 1;
+                Warshall(grafo, C, root, child+cont,cont);
                 //System.out.println(descendant);
             }
         }
