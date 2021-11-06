@@ -34,9 +34,13 @@ public class Grafo {
         //"index" representa el nodo destino de los vertices
         for (int index: grafo.getAdjList().get(column)) {
 
-            // si "child" es un vertice adyacente de descendant, tenemos que encontrar una ruta de root -> a child
+            // si "index" es un vertice muy proximo de "column", tenemos que encontrar una ruta de fila --> a index.
+            // En otras palabras, si el vertice no tiene ruta directa (es un cero en la matriz) hacia ese vertice
+            //  el cual es "fila", pero sí tiene manera de llegar por medio de otros vertices, entonces se 
+            //   coloca en "1".
             if (matriz[fila][index+cont] == 0) {
-
+                
+                //se coloca en "1" ya que puede llegar a un determinado vertice por medio de otro.
                 matriz[fila][index+cont] = 1;
                 Warshall(grafo, matriz, fila, index+cont,cont);
             }
